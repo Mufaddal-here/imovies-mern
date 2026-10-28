@@ -79,7 +79,7 @@ export function Book() {
   const load = () => api.get('/shows/' + id).then(r => { setS(r.data); setSel([]); });
   useEffect(() => {
     load();
-    const so = io(); so.emit('watch', id);
+    const so = io(import.meta.env.VITE_API_URL || undefined); so.emit('watch', id);
     so.on('seats', b => { setS(p => p && { ...p, bookedSeats: b }); setSel(x => x.filter(k => !b.includes(k))); });
     return () => so.disconnect();
   }, [id]);
